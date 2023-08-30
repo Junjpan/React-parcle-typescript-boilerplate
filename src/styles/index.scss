@@ -1,0 +1,10 @@
+@import url("../App/components/hello.scss");
+
+$background-grey: #f3f3f3;
+
+html {
+  background-color: $background-grey;
+  font-size: 16px;
+  width: 100vw;
+  height: 100vh;
+}
