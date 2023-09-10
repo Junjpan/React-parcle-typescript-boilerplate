@@ -1,0 +1,20 @@
+.chatContainer {
+  &__content {
+  }
+
+  &__input {
+    min-height: var(--footer-height);
+    display: grid;
+    grid-template-columns: 9fr 1fr;
+    &__textarea {
+      resize: none;
+      min-height: var(--footer-height);
+      height: auto;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    &__button {
+    }
+  }
+}

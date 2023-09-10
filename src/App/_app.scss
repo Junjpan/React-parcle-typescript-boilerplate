@@ -1,0 +1,34 @@
+.container {
+  background-color: white;
+  position: relative;
+
+  &__output {
+    height: calc(100vh - var(--footer-height));
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none; //chrome
+    }
+
+    scrollbar-width: none; //firefox
+    overscroll-behavior-y: contain;
+
+    .chatBubble {
+      padding: 1rem;
+      border-radius: 0.8rem;
+      background: skyblue;
+      width: fit-content;
+      margin: 1rem;
+    }
+  }
+
+  .footer {
+    width: 100%;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+  }
+}
