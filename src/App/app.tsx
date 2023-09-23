@@ -14,6 +14,8 @@ const App = () => {
   useEffect(() => {
     const blurDivs = document.querySelectorAll(".blur-load");
 
+    const loadedListender = [];
+
     blurDivs.forEach((div) => {
       const image: HTMLImageElement = div.querySelector("img");
 
@@ -25,8 +27,15 @@ const App = () => {
       } else {
         //make sure the image is full loaded
         image.addEventListener("load", loaded);
+        loadedListender.push({ image, loaded });
       }
     });
+
+    return () => {
+      loadedListender.forEach((image, loader) => {
+        image.removeEventListener("load", loader);
+      });
+    };
   }, []);
   return (
     <div className="container">
