@@ -1,34 +1,56 @@
 .container {
   background-color: white;
   position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+  gap: 2rem;
 
-  &__output {
-    height: calc(100vh - var(--footer-height));
-    display: flex;
-    flex-direction: column-reverse;
+  .images {
+    background-size: contain;
     width: 100%;
-    overflow-y: scroll;
+    aspect-ratio: 1/1.5;
+    object-fit: cover;
+    object-position: center;
+  }
 
-    &::-webkit-scrollbar {
-      display: none; //chrome
+  .blur-load {
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    aspect-ratio: 1/1.5;
+    position: relative;
+
+    img {
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
     }
 
-    scrollbar-width: none; //firefox
-    overscroll-behavior-y: contain;
-
-    .chatBubble {
-      padding: 1rem;
-      border-radius: 0.8rem;
-      background: skyblue;
-      width: fit-content;
-      margin: 1rem;
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      animation: pulse 2.5s infinite; //give a user the impression that the image is loading
     }
   }
 
-  .footer {
-    width: 100%;
-    position: fixed;
-    right: 0;
-    bottom: 0;
+  .blur-load.loaded {
+    img {
+      opacity: 1;
+    }
+    &::before {
+      content: none;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    background-color: rgba(255, 255, 255, 0);
+  }
+  50% {
+    background-color: rgba(255, 255, 255, 0.1);
   }
 }

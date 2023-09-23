@@ -1,77 +1,50 @@
 import { useRef, useState, useEffect } from "react";
-import { animateTo } from "./utilities/animateTo";
-import Chat from "./components/chat/Chat";
+import A from "./assets/1.jpg";
+import B from "./assets/2.jpg";
+import C from "./assets/3.jpg";
+import D from "./assets/4.jpg";
+import ASM from "./assets/1_sm.jpg";
+import BSM from "./assets/2_sm.jpg";
+import CSM from "./assets/3_sm.jpg";
+import DSM from "./assets/4_sm.jpg";
+
+//you can test this effect by going to the inpsector and select network, and set it to fast 3G.
 
 const App = () => {
-  const [messages, setMessages] = useState<string[]>([]);
-  const outPutRef = useRef<HTMLDivElement>(null);
-  const footerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    const callback = (mutationList: MutationRecord[]) => {
-      for (const mutation of mutationList) {
-        //if a new node is added, the new node will scroll up and the parent node will also do transform position
-        if (mutation.type === "childList") {
-          const newNode = outPutRef.current.firstChild;
+    const blurDivs = document.querySelectorAll(".blur-load");
 
-          if (newNode instanceof HTMLElement) {
-            animateTo(
-              newNode,
-              [
-                { opacity: 0, transform: `translateY(10px)` },
-                { opacity: 1, transform: `translateY(0px)` },
-              ],
-              {
-                duration: 500,
-                easing: "ease-out",
-              }
-            );
+    blurDivs.forEach((div) => {
+      const image: HTMLImageElement = div.querySelector("img");
 
-            animateTo(
-              outPutRef.current,
-              [
-                { transform: `translateY(10px)` },
-                { transform: `translateY(0px)` },
-              ],
-              {
-                duration: 600,
-                easing: "ease-in",
-              }
-            );
-          }
-
-          outPutRef.current.scrollTo({ top: 0, behavior: "smooth" });
-        }
+      const loaded = () => {
+        div.classList.add("loaded");
+      };
+      if (image.complete) {
+        loaded();
+      } else {
+        //make sure the image is full loaded
+        image.addEventListener("load", loaded);
       }
-    };
-
-    const mutationObserver = new MutationObserver(callback);
-    //check if new text is added
-    mutationObserver.observe(outPutRef.current, {
-      childList: true,
     });
-    return () => {
-      mutationObserver.disconnect();
-    };
   }, []);
-
-  const sendMessage = (msg: string) => {
-    setMessages((pre) => [msg, ...pre]);
-  };
-
   return (
     <div className="container">
-      <div className="container__output" ref={outPutRef}>
-        {messages.map((msg, i) => {
-          return (
-            <div key={i} className="chatBubble">
-              {msg}
-            </div>
-          );
-        })}
+      <div className="blur-load" style={{ backgroundImage: `url(${ASM})` }}>
+        {" "}
+        <img className="images" loading="lazy" src={A} />
       </div>
-      <div className="footer" ref={footerRef}>
-        <Chat {...{ sendMessage }} />
+      <div className="blur-load" style={{ backgroundImage: `url(${BSM})` }}>
+        {" "}
+        <img className="images" loading="lazy" src={B} />
+      </div>
+      <div className="blur-load" style={{ backgroundImage: `url(${CSM})` }}>
+        {" "}
+        <img className="images" loading="lazy" src={C} />
+      </div>
+      <div className="blur-load" style={{ backgroundImage: `url(${DSM})` }}>
+        {" "}
+        <img className="images" loading="lazy" src={D} />
       </div>
     </div>
   );
